@@ -1,28 +1,25 @@
+import { Routes, Route } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop";
 import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Partners from "./components/Partners";
-import Features from "./components/Features";
-import HowWeDoIt from "./components/HowWeDoIt";
-import Reviews from "./components/Reviews";
-import Introduction from "./components/Introduction";
-import CaseStudies from "./components/CaseStudies";
-import OfficialVideos from "./components/OfficialVideos";
-import Genres from "./components/Genres";
 import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import AboutUs from "./pages/AboutUs";
+import Promotions from "./pages/Promotions";
+import ContactUs from "./pages/ContactUs";
+import GetFunded from "./pages/GetFunded";
 
 function App() {
   return (
     <div className="bg-[#0d0d0d] text-white min-h-screen">
+      <ScrollToTop />
       <Navbar />
-      <Hero />
-      <Partners />
-      <Features />
-      <HowWeDoIt />
-      <Reviews />
-      <Introduction />
-      <CaseStudies />
-      <OfficialVideos />
-      <Genres />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/promotions" element={<Promotions />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/get-funded" element={<GetFunded />} />
+      </Routes>
       <Footer />
     </div>
   );
