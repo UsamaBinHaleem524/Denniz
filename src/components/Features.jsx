@@ -1,3 +1,6 @@
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+
 const features = [
   {
     title: "Custom Graphics And Videos",
@@ -16,7 +19,7 @@ const features = [
     title: "Online Press",
     description:
       "Our close relationship with music bloggers means we can guarantee at least two blog features or online reviews.",
-    image: "https://images.unsplash.com/photo-1504711434969-e33886168d6c?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&q=80",
   },
   {
     title: "4-6 Week Campaigns",
@@ -47,25 +50,42 @@ const features = [
 ];
 
 export default function Features() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+
   return (
-    <section id="promotions" className="bg-black py-24">
+    <section id="promotions" className="bg-black py-24" ref={ref}>
       <div className="max-w-7xl mx-auto px-6">
-        
+
         {/* Small Subtitle */}
-        <p className="text-primary text-xl tracking-[0.2em] font-semibold text-center mb-4 uppercase">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-primary text-xl tracking-[0.2em] font-semibold text-center mb-4 uppercase"
+        >
           What Do You Get?
-        </p>
+        </motion.p>
 
         {/* Main Heading */}
-        <h2 className="text-white text-center text-4xl md:text-6xl font-extrabold uppercase mb-16 leading-tight">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-white text-center text-4xl md:text-6xl font-extrabold uppercase mb-16 leading-tight"
+        >
           More Features, Likes And Listeners. Guaranteed.
-        </h2>
+        </motion.h2>
 
         {/* Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <div
+            <motion.div
               key={index}
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.15 + index * 0.1 }}
+              whileHover={{ y: -8, transition: { duration: 0.3 } }}
               className={`relative rounded-2xl overflow-hidden group ${
                 feature.colSpan || ""
               }`}
@@ -88,7 +108,7 @@ export default function Features() {
                   {feature.description}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

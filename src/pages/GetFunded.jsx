@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 const brandDeals = [
   {
@@ -30,6 +31,11 @@ export default function GetFunded() {
     option: "Get Funded",
   });
 
+  const formRef = useRef(null);
+  const formInView = useInView(formRef, { once: true, margin: "-50px" });
+  const brandsRef = useRef(null);
+  const brandsInView = useInView(brandsRef, { once: true, margin: "-80px" });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -39,17 +45,35 @@ export default function GetFunded() {
     e.preventDefault();
   };
 
+  const formFields = [
+    { label: "Artist Name", name: "artistName", placeholder: "Artist Name" },
+    { label: "Instagram Username", name: "instagram", placeholder: "Instagram Handle" },
+    { label: "Email", name: "email", type: "email", placeholder: "Email" },
+    { label: "Spotify or YouTube Link", name: "trackLink", placeholder: "Your Track Link" },
+    { label: "Phone Number", name: "phone", type: "tel", placeholder: "Phone Number" },
+  ];
+
   return (
     <section className="bg-[#0d0d0d] pt-28 pb-20">
-      <div className="max-w-3xl mx-auto px-6">
+      <div className="max-w-3xl mx-auto px-6" ref={formRef}>
         {/* Heading */}
-        <h1 className="text-center text-4xl md:text-5xl lg:text-6xl font-extrabold uppercase mb-10">
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="text-center text-4xl md:text-5xl lg:text-6xl font-extrabold uppercase mb-10"
+        >
           Grow With{" "}
-          <span className="text-primary">Madmen Records</span>
-        </h1>
+          <span className="text-primary">Denniz Records</span>
+        </motion.h1>
 
         {/* Progress Bar */}
-        <div className="flex items-center gap-0 mb-14 max-w-xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={formInView ? { opacity: 1, scaleX: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex items-center gap-0 mb-14 max-w-xl mx-auto origin-left"
+        >
           <div className="w-8 h-8 rounded-full bg-primary text-black text-sm font-bold flex items-center justify-center shrink-0">
             1
           </div>
@@ -59,50 +83,37 @@ export default function GetFunded() {
           <div className="w-8 h-8 rounded-full bg-gray-600 text-gray-400 text-sm font-bold flex items-center justify-center shrink-0">
             2
           </div>
-        </div>
+        </motion.div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6 max-w-xl mx-auto">
-          <FormField
-            label="Artist Name"
-            name="artistName"
-            value={form.artistName}
-            onChange={handleChange}
-            placeholder="Artist Name"
-          />
-          <FormField
-            label="Instagram Username"
-            name="instagram"
-            value={form.instagram}
-            onChange={handleChange}
-            placeholder="Instagram Handle"
-          />
-          <FormField
-            label="Email"
-            name="email"
-            type="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="Email"
-          />
-          <FormField
-            label="Spotify or YouTube Link"
-            name="trackLink"
-            value={form.trackLink}
-            onChange={handleChange}
-            placeholder="Your Track Link"
-          />
-          <FormField
-            label="Phone Number"
-            name="phone"
-            type="tel"
-            value={form.phone}
-            onChange={handleChange}
-            placeholder="Phone Number"
-          />
+          {formFields.map((field, index) => (
+            <motion.div
+              key={field.name}
+              initial={{ opacity: 0, x: -30 }}
+              animate={formInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.4, delay: 0.3 + index * 0.08 }}
+            >
+              <label className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">
+                {field.label}
+              </label>
+              <input
+                type={field.type || "text"}
+                name={field.name}
+                value={form[field.name]}
+                onChange={handleChange}
+                placeholder={field.placeholder}
+                className="w-full bg-white text-black rounded-lg px-4 py-3 text-sm outline-none"
+              />
+            </motion.div>
+          ))}
 
           {/* Select: How Long */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={formInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.4, delay: 0.7 }}
+          >
             <label className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">
               How Long You Are Making Music
             </label>
@@ -117,10 +128,14 @@ export default function GetFunded() {
               <option>3-5 years</option>
               <option>5+ years</option>
             </select>
-          </div>
+          </motion.div>
 
           {/* Select: Budget */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={formInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.4, delay: 0.78 }}
+          >
             <label className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">
               Marketing Budget You Are Spending
             </label>
@@ -136,10 +151,14 @@ export default function GetFunded() {
               <option>$1,000 - $5,000</option>
               <option>$5,000+</option>
             </select>
-          </div>
+          </motion.div>
 
           {/* Select: Options */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={formInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.4, delay: 0.86 }}
+          >
             <label className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">
               Select Options
             </label>
@@ -154,59 +173,57 @@ export default function GetFunded() {
               <option>Distribution</option>
               <option>Brand Deal</option>
             </select>
-          </div>
+          </motion.div>
 
           {/* Submit */}
-          <div className="text-center pt-4">
-            <button
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={formInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.9 }}
+            className="text-center pt-4"
+          >
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               type="submit"
               className="bg-primary text-black text-lg font-bold px-12 py-4 rounded-md hover:opacity-90 transition"
             >
               Next
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         </form>
       </div>
 
       {/* Brand Deals Section */}
-      <div className="max-w-5xl mx-auto px-6 mt-28">
-        <h2 className="text-3xl md:text-4xl font-extrabold uppercase text-center mb-12">
+      <div className="max-w-5xl mx-auto px-6 mt-28" ref={brandsRef}>
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          animate={brandsInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-3xl md:text-4xl font-extrabold uppercase text-center mb-12"
+        >
           Brands Deals
-        </h2>
+        </motion.h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {brandDeals.map((deal, index) => (
-            <div
+            <motion.div
               key={index}
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={brandsInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.15 + index * 0.15 }}
+              whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
               className="rounded-2xl overflow-hidden h-[300px]"
             >
               <img
                 src={deal.image}
                 alt={deal.alt}
-                className="w-full h-full object-cover hover:scale-105 transition duration-500"
+                className="w-full h-full object-cover transition duration-500"
               />
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
     </section>
-  );
-}
-
-function FormField({ label, name, type = "text", value, onChange, placeholder }) {
-  return (
-    <div>
-      <label className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">
-        {label}
-      </label>
-      <input
-        type={type}
-        name={name}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        className="w-full bg-white text-black rounded-lg px-4 py-3 text-sm outline-none"
-      />
-    </div>
   );
 }

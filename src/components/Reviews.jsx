@@ -1,6 +1,9 @@
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+
 const reviews = [
   {
-    text: "Working with Madmen Records completely changed my career. Their marketing strategy got my single on playlists I never thought I'd reach. I gained over 50K new streams in just a month!",
+    text: "Working with Denniz Records completely changed my career. Their marketing strategy got my single on playlists I never thought I'd reach. I gained over 50K new streams in just a month!",
     name: "SIAHLANSKY",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80",
     color: "dark",
@@ -38,20 +41,35 @@ const reviews = [
 ];
 
 export default function Reviews() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+
   return (
-    <section className="bg-black py-24">
+    <section className="bg-black py-24" ref={ref}>
       <div className="max-w-7xl mx-auto px-6">
-        
+
         {/* Heading */}
-        <h2 className="text-white text-4xl md:text-5xl font-extrabold uppercase text-center mb-20">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-white text-4xl md:text-5xl font-extrabold uppercase text-center mb-20"
+        >
           Reviews From Clients
-        </h2>
+        </motion.h2>
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
           {reviews.map((review, index) => (
-            <div key={index} className="flex flex-col items-start">
-              
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+              className="flex flex-col items-start"
+            >
+
               {/* Bubble */}
               <div
                 className={`relative rounded-2xl p-8 text-sm leading-relaxed ${
@@ -61,7 +79,7 @@ export default function Reviews() {
                 }`}
               >
                 <p className="font-medium">
-                  “{review.text}”
+                  "{review.text}"
                 </p>
 
                 {/* Bubble Tail */}
@@ -86,7 +104,7 @@ export default function Reviews() {
                 </p>
               </div>
 
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

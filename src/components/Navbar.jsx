@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -13,13 +14,22 @@ export default function Navbar() {
   const location = useLocation();
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+    <motion.nav
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10"
+    >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-black font-bold text-sm">
+          <motion.div
+            whileHover={{ rotate: 360, scale: 1.1 }}
+            transition={{ duration: 0.5 }}
+            className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-black font-bold text-sm"
+          >
             D
-          </div>
+          </motion.div>
           <span className="text-white font-bold text-sm tracking-wide">
             DENNIZ
           </span>
@@ -27,8 +37,13 @@ export default function Navbar() {
 
         {/* Desktop Nav Links */}
         <ul className="hidden lg:flex items-center gap-7">
-          {navLinks.map((link) => (
-            <li key={link.label}>
+          {navLinks.map((link, index) => (
+            <motion.li
+              key={link.label}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+            >
               <Link
                 to={link.path}
                 className={`text-sm font-medium transition-colors duration-200 ${
@@ -39,9 +54,13 @@ export default function Navbar() {
               >
                 {link.label}
               </Link>
-            </li>
+            </motion.li>
           ))}
-          <li>
+          <motion.li
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.4 }}
+          >
             <Link
               to="/get-funded"
               className={`text-sm font-medium transition-colors duration-200 ${
@@ -52,16 +71,22 @@ export default function Navbar() {
             >
               Get Funded
             </Link>
-          </li>
+          </motion.li>
         </ul>
 
         {/* CTA Button */}
-        <Link
-          to="/contact"
-          className="hidden lg:inline-block bg-primary text-black text-sm font-semibold px-5 py-2 rounded-md hover:bg-primary/80 transition-colors duration-200"
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4, delay: 0.5 }}
         >
-          Get In Touch
-        </Link>
+          <Link
+            to="/contact"
+            className="hidden lg:inline-block bg-primary text-black text-sm font-semibold px-5 py-2 rounded-md hover:bg-primary/80 transition-colors duration-200"
+          >
+            Get In Touch
+          </Link>
+        </motion.div>
 
         {/* Mobile Menu Button */}
         <button
@@ -79,45 +104,66 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="lg:hidden bg-black/95 border-t border-white/10 px-6 pb-4">
-          <ul className="flex flex-col gap-4 pt-4">
-            {navLinks.map((link) => (
-              <li key={link.label}>
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="lg:hidden bg-black/95 border-t border-white/10 px-6 pb-4 overflow-hidden"
+          >
+            <ul className="flex flex-col gap-4 pt-4">
+              {navLinks.map((link, index) => (
+                <motion.li
+                  key={link.label}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <Link
+                    to={link.path}
+                    className={`text-sm font-medium ${
+                      location.pathname === link.path
+                        ? "text-primary"
+                        : "text-gray-300 hover:text-primary"
+                    }`}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.li>
+              ))}
+              <motion.li
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+              >
                 <Link
-                  to={link.path}
-                  className={`text-sm font-medium ${
-                    location.pathname === link.path
-                      ? "text-primary"
-                      : "text-gray-300 hover:text-primary"
-                  }`}
+                  to="/get-funded"
+                  className="text-primary text-sm font-medium"
                   onClick={() => setMenuOpen(false)}
                 >
-                  {link.label}
+                  Get Funded
                 </Link>
-              </li>
-            ))}
-            <li>
-              <Link
-                to="/get-funded"
-                className="text-primary text-sm font-medium"
-                onClick={() => setMenuOpen(false)}
+              </motion.li>
+              <motion.li
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.25 }}
               >
-                Get Funded
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/contact"
-                className="inline-block bg-primary text-black text-sm font-semibold px-5 py-2 rounded-md mt-2"
-                onClick={() => setMenuOpen(false)}
-              >
-                Get In Touch
-              </Link>
-            </li>
-          </ul>
-        </div>
-      )}
-    </nav>
+                <Link
+                  to="/contact"
+                  className="inline-block bg-primary text-black text-sm font-semibold px-5 py-2 rounded-md mt-2"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Get In Touch
+                </Link>
+              </motion.li>
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   );
 }

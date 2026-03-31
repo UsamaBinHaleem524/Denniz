@@ -1,4 +1,10 @@
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+
 export default function OfficialVideos() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+
   const videos = [
     { id: "dQw4w9WgXcQ" },
     { id: "dil3XmzfJCg" },
@@ -8,7 +14,7 @@ export default function OfficialVideos() {
   ];
 
   return (
-    <section className="relative py-28 bg-black overflow-hidden">
+    <section ref={ref} className="relative py-28 bg-black overflow-hidden">
 
       {/* Background */}
       <div className="absolute inset-0">
@@ -23,29 +29,62 @@ export default function OfficialVideos() {
       <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
 
         {/* Heading */}
-        <h2 className="text-white text-4xl md:text-5xl font-extrabold uppercase mb-4">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-white text-4xl md:text-5xl font-extrabold uppercase mb-4"
+        >
           Official Video
-        </h2>
+        </motion.h2>
 
-        <p className="text-gray-300 text-sm uppercase tracking-wider mb-8">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="text-gray-300 text-sm uppercase tracking-wider mb-8"
+        >
           Official Videos Of Our Artists
-        </p>
+        </motion.p>
 
-        <button className="bg-primary text-black font-semibold px-8 py-4 rounded-md hover:opacity-90 transition mb-20">
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="bg-primary text-black font-semibold px-8 py-4 rounded-md hover:opacity-90 transition mb-20"
+        >
           All Music Videos
-        </button>
+        </motion.button>
 
         {/* Top Row - 2 Videos */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
           {videos.slice(0, 2).map((video, index) => (
-            <VideoCard key={index} videoId={video.id} />
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.3 + index * 0.15 }}
+              whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
+            >
+              <VideoCard videoId={video.id} />
+            </motion.div>
           ))}
         </div>
 
         {/* Bottom Row - 3 Videos */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {videos.slice(2).map((video, index) => (
-            <VideoCard key={index} videoId={video.id} />
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.5 + index * 0.15 }}
+              whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
+            >
+              <VideoCard videoId={video.id} />
+            </motion.div>
           ))}
         </div>
 

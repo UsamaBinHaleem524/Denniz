@@ -1,3 +1,6 @@
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+
 const packages = [
   {
     name: "Starter Boost",
@@ -81,31 +84,58 @@ const packages = [
 ];
 
 export default function Promotions() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
   return (
-    <section className="bg-[#0d0d0d] pt-28 pb-20">
+    <section className="bg-[#0d0d0d] pt-28 pb-20" ref={ref}>
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block bg-primary text-black text-xs font-bold px-5 py-2 rounded-md uppercase tracking-wide mb-6">
+          <motion.span
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.5 }}
+            className="inline-block bg-primary text-black text-xs font-bold px-5 py-2 rounded-md uppercase tracking-wide mb-6"
+          >
             Our Promo Packages
-          </span>
-          <h1 className="text-3xl font-extrabold uppercase leading-tight max-w-2xl mx-auto">
+          </motion.span>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-3xl font-extrabold uppercase leading-tight max-w-2xl mx-auto"
+          >
             We Know Music Marketing Inside Out. Work With Us To Raise Your
             Profile.
-          </h1>
+          </motion.h1>
         </div>
 
         {/* Packages Grid - Top 3 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {packages.slice(0, 3).map((pkg, index) => (
-            <PackageCard key={index} pkg={pkg} />
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 60 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 + index * 0.15 }}
+            >
+              <PackageCard pkg={pkg} />
+            </motion.div>
           ))}
         </div>
 
         {/* Bottom package - single card left aligned */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {packages.slice(3).map((pkg, index) => (
-            <PackageCard key={index} pkg={pkg} />
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 60 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.65 }}
+            >
+              <PackageCard pkg={pkg} />
+            </motion.div>
           ))}
         </div>
       </div>
@@ -115,7 +145,10 @@ export default function Promotions() {
 
 function PackageCard({ pkg }) {
   return (
-    <div className="relative rounded-2xl overflow-hidden group">
+    <motion.div
+      whileHover={{ y: -10, transition: { duration: 0.3 } }}
+      className="relative rounded-2xl overflow-hidden group"
+    >
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
@@ -147,10 +180,14 @@ function PackageCard({ pkg }) {
           ))}
         </ul>
 
-        <button className="bg-primary text-black text-sm font-bold px-6 py-3 rounded-md hover:opacity-90 transition uppercase">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="bg-primary text-black text-sm font-bold px-6 py-3 rounded-md hover:opacity-90 transition uppercase"
+        >
           Buy Now
-        </button>
+        </motion.button>
       </div>
-    </div>
+    </motion.div>
   );
 }
