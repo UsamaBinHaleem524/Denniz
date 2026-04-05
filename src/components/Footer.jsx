@@ -1,6 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import footerBg from "../assets/footer_background.jpeg";
+import { Link } from "react-router-dom";
+import denizLogo from "../assets/deniz_logo.svg";
 
 export default function Footer() {
   const ref = useRef(null);
@@ -12,11 +13,11 @@ export default function Footer() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src={footerBg}
+          src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1600&q=80"
           alt="Concert"
-          className="w-full h-full object-cover opacity-40"
+          className="w-full h-full object-cover opacity-35"
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/40" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-24">
@@ -32,16 +33,20 @@ export default function Footer() {
             Get In Touch With Us
           </motion.h2>
 
-          <motion.button
+          <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-primary text-black font-semibold px-8 py-4 rounded-md hover:opacity-90 transition"
           >
-            Contact Us
-          </motion.button>
+            <Link
+              to="/contact"
+              className="inline-block bg-primary text-black font-semibold px-8 py-4 rounded-md hover:opacity-90 transition"
+            >
+              Contact Us
+            </Link>
+          </motion.div>
         </div>
 
         {/* Divider */}
@@ -60,6 +65,17 @@ export default function Footer() {
           className="flex flex-col items-center text-center gap-8"
         >
 
+          {/* Logo */}
+          <Link to="/">
+            <motion.img
+              src={denizLogo}
+              alt="Deniz Marketing"
+              className="h-10 w-auto opacity-90"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            />
+          </Link>
+
           {/* Instagram Icon */}
           <motion.div
             whileHover={{ scale: 1.2, rotate: 10 }}
@@ -74,26 +90,9 @@ export default function Footer() {
             </svg>
           </motion.div>
 
-          {/* Policy Links */}
-          <div className="flex flex-wrap justify-center gap-10 text-sm">
-            {["Privacy Policy", "Refund Policy", "Terms & Conditions"].map((link, i) => (
-              <motion.a
-                key={link}
-                href="#"
-                initial={{ opacity: 0, y: 10 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
-                whileHover={{ color: "#F28F31", y: -2 }}
-                className="hover:text-primary transition"
-              >
-                {link}
-              </motion.a>
-            ))}
-          </div>
-
           {/* Copyright */}
           <p className="text-xs text-white/70 mt-4">
-            COPYRIGHT © 2026 DENNIZ RECORDS. ALL RIGHTS RESERVED.
+            COPYRIGHT © 2017 DENIZ MARKETING. ALL RIGHTS RESERVED.
           </p>
         </motion.div>
       </div>

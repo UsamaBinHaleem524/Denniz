@@ -64,7 +64,7 @@ export default function GetFunded() {
           className="text-center text-4xl md:text-5xl lg:text-6xl font-extrabold uppercase mb-10"
         >
           Grow With{" "}
-          <span className="text-primary">Denniz Records</span>
+          <span className="text-primary">Deniz Marketing</span>
         </motion.h1>
 
         {/* Progress Bar */}

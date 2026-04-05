@@ -3,24 +3,24 @@ import { useRef } from "react";
 
 const steps = [
   {
-    title: "We Get To Know You",
+    title: "We Get to Know You",
     description:
-      "Before we get started, we'll take time to learn all about you and your music. Once we've got all the info we need to maximize your promo potential, we can get to work on your campaign.",
+      "Before launching any campaign, we take the time to truly understand you, your music, and your goals. This allows us to craft a strategy that’s tailored to maximize your reach and overall impact.",
   },
   {
-    title: "We Develop Your Brand",
+    title: "We Build Your Brand",
     description:
-      "Now it's time to pitch your music to our network of playlist curators, music bloggers and journalists. We'll also create your custom social schedule and graphics — and launch your ad campaign if you upgraded to Promo Plus.",
+      "Next, we position your music in front of the right audience. We pitch to playlist curators, bloggers, and journalists, create a customized social media plan, design branded visuals, and run targeted ad campaigns for Promo Plus clients.",
   },
   {
-    title: "We Guarantee Results",
+    title: "We Deliver Real Results",
     description:
-      "We'll keep pitching your music to our network of Spotify playlist curators until you land placements. And our close relationship industry tastemakers means we can guarantee you'll be featured by at least two music blogs.",
+      "Our team consistently promotes your music across our network of Spotify playlist curators until placements are secured. Leveraging strong industry connections, we also ensure coverage on at least two reputable music blogs.",
   },
   {
-    title: "We Help You DIY",
+    title: "We Help You Grow Independently",
     description:
-      "We know the show goes on after your campaign is over, so we'll give you the tools and advice you need to keep promoting yourself. You'll receive detailed reports and feedback from your campaign, as well as exclusive guides filled with PR and playlisting tips, tricks and tactics.",
+      "Your progress doesn’t stop when the campaign ends. You’ll receive detailed reports, practical feedback, and exclusive guides filled with PR, playlisting, and promotion strategies—so you can continue growing on your own.",
   },
 ];
 
