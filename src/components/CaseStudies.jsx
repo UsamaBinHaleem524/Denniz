@@ -33,40 +33,6 @@ export default function CaseStudies() {
               metal, EDM, folk, country, indie, singer-songwriter, reggaeton,
               R&B, afrobeat, drill and hip-hop.
             </motion.p>
-
-            {/* Store Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex gap-6"
-            >
-              <motion.a
-                href="#"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="border border-white/30 text-white px-6 py-3 rounded-lg flex items-center gap-3 hover:bg-white/10 transition"
-              >
-                <span className="text-xl"></span>
-                <div className="text-left">
-                  <p className="text-[10px] uppercase">Get it on</p>
-                  <p className="text-sm font-semibold">App Store</p>
-                </div>
-              </motion.a>
-
-              <motion.a
-                href="#"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="border border-white/30 text-white px-6 py-3 rounded-lg flex items-center gap-3 hover:bg-white/10 transition"
-              >
-                <span className="text-xl">▶</span>
-                <div className="text-left">
-                  <p className="text-[10px] uppercase">Get it on</p>
-                  <p className="text-sm font-semibold">Google Play</p>
-                </div>
-              </motion.a>
-            </motion.div>
           </div>
 
           {/* RIGHT IMAGE */}
@@ -74,16 +40,12 @@ export default function CaseStudies() {
             initial={{ opacity: 0, scale: 0.85, rotate: 3 }}
             animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative flex justify-center"
+            className="rounded-2xl overflow-hidden"
           >
-            {/* Red Frame Background */}
-            <div className="absolute w-[85%] h-[85%] border-[40px] border-red-900 rounded-3xl -z-10" />
-
-            {/* Main Image */}
             <img
-              src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80"
-              alt="Artists"
-              className="relative z-10 w-full max-w-lg object-contain"
+              src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80"
+              alt="Music Studio"
+              className="w-full h-[420px] object-cover"
             />
           </motion.div>
 

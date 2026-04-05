@@ -1,41 +1,47 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import img1 from "../assets/image1.jpeg";
+import img2 from "../assets/image2.jpeg";
+import img3 from "../assets/image3.jpeg";
+import img4 from "../assets/image4.jpg";
+import img5 from "../assets/image5.jpeg";
+import img6 from "../assets/image6.jpg";
 
 const reviews = [
   {
-    text: "Working with Denniz Records completely changed my career. Their marketing strategy got my single on playlists I never thought I'd reach. I gained over 50K new streams in just a month!",
+    text: "Norman and his team deliver precise, personalized campaigns with completely organic results, providing unmatched support at every step. Any artist serious about growth will see real value working with them.",
     name: "SIAHLANSKY",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80",
+    avatar: img1,
     color: "dark",
   },
   {
-    text: "They helped me find my audience. I went from struggling to get 100 plays to consistent traction on Spotify and YouTube. Their team truly understands independent artists.",
+    text: "I loved working with Norman! They helped me grow my audience and bring my music and storytelling to life while staying true to my mission.",
     name: "SKIMASKRECO",
-    avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&q=80",
+    avatar: img2,
     color: "green",
   },
   {
-    text: "I've worked with other promo companies before, but this was different. Real engagement, transparent updates, and most importantly — results. Highly recommended.",
+    text: "Working with Deniz's team has been amazing. They really took the time to understand my vision and helped me grow my audience while keeping my creativity front and center. The whole process was smooth, professional, and motivating — I feel more confident in my music and content than ever.",
     name: "NAFL_AKA_BRUCE_WAYNE",
-    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&q=80",
+    avatar: img3,
     color: "dark",
   },
   {
-    text: "Their TikTok strategy was a game-changer. I went from 800 followers to 10K in under a month, and it directly boosted my streams. These guys know how to grow real hype.",
+    text: "I've tried multiple platforms before, but Norman's approach felt real and effective. I am grateful for the support and the amazing results!",
     name: "CBCKEEM",
-    avatar: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&q=80",
+    avatar: img4,
     color: "green",
   },
   {
-    text: "As a new artist, I had no idea how to get exposure. Their team guided me step-by-step, helped with branding, and made my debut release feel like a major drop.",
+    text: "I've tried multiple platforms before, but Norman's approach felt real and effective. I am grateful for the support and the amazing results!",
     name: "ITZDOMAE",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80",
+    avatar: img5,
     color: "dark",
   },
   {
-    text: "The growth on my socials and Spotify was crazy. Everything was organic and on-brand — no bots, no fluff, just smart marketing that actually works.",
+    text: "Every project with Norman is executed with precision and thoughtful strategy. The campaigns are fully organic, delivering consistent growth and meaningful results for artists.",
     name: "IM_DYELLE101",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
+    avatar: img6,
     color: "green",
   },
 ];

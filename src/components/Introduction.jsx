@@ -1,11 +1,12 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const stats = [
-  { number: 35, suffix: "M+", label: "Downloads" },
-  { number: 55, suffix: "+", label: "Music Videos" },
-  { number: 90, suffix: "+", label: "Music Albums" },
-  { number: 108, suffix: "M+", label: "Subscribers" },
+  { number: 6, suffix: "B+", label: "Streams" },
+  { number: 435, suffix: "+", label: "Music Videos" },
+  { number: 6500, suffix: "+", label: "Clients" },
+  { number: 13, suffix: "M+", label: "Subscribers" },
 ];
 
 function CountUpNumber({ target, suffix, duration = 2 }) {
@@ -64,7 +65,7 @@ export default function Introduction() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-gray-400 text-sm leading-relaxed max-w-xl mb-16"
             >
-              Welcome to Denniz Records! For nearly six years, we've been the
+              Welcome to Deniz Marketing! For nearly six years, we've been the
               go-to agency for artists seeking to amplify their presence and
               monetize their talent. From building a devoted fanbase with
               organic strategies to crafting stunning content and launching
@@ -114,16 +115,18 @@ export default function Introduction() {
             </motion.p>
 
             {/* Button */}
-            <motion.button
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.5 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-primary text-black font-semibold px-6 py-3 rounded-md mb-12 hover:opacity-90 transition"
             >
-              More About Us
-            </motion.button>
+              <Link
+                to="/about"
+                className="inline-block bg-primary text-black font-semibold px-6 py-3 rounded-md mb-12 hover:opacity-90 transition"
+              >
+                More About Us
+              </Link>
+            </motion.div>
 
             {/* Image */}
             <motion.div

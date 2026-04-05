@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import denizLogo from "../assets/deniz_logo.svg";
 
 const navLinks = [
   { label: "Home", path: "/" },
@@ -22,17 +23,14 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
-          <motion.div
-            whileHover={{ rotate: 360, scale: 1.1 }}
-            transition={{ duration: 0.5 }}
-            className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-black font-bold text-sm"
-          >
-            D
-          </motion.div>
-          <span className="text-white font-bold text-sm tracking-wide">
-            DENNIZ
-          </span>
+        <Link to="/">
+          <motion.img
+            src={denizLogo}
+            alt="Deniz Marketing"
+            className="h-9 w-auto"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
+          />
         </Link>
 
         {/* Desktop Nav Links */}

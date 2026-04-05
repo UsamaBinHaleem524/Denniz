@@ -3,10 +3,10 @@ import { useRef, useEffect, useState } from "react";
 import Reviews from "../components/Reviews";
 
 const stats = [
-  { number: 35, suffix: "M+", label: "Downloads" },
-  { number: 55, suffix: "+", label: "Music Videos" },
-  { number: 90, suffix: "+", label: "Music Albums" },
-  { number: 108, suffix: "M+", label: "Subscribers" },
+  { number: 6, suffix: "B+", label: "Streams" },
+  { number: 435, suffix: "+", label: "Music Videos" },
+  { number: 6500, suffix: "+", label: "Clients" },
+  { number: 13, suffix: "M+", label: "Subscribers" },
 ];
 
 function CountUpNumber({ target, suffix, duration = 2 }) {

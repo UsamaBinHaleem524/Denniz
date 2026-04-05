@@ -4,19 +4,44 @@ import { motion, useInView } from "framer-motion";
 const contactInfo = [
   {
     icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+      <svg
+        className="w-8 h-8"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.5}
+          d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+        />
       </svg>
     ),
     title: "Email Address",
-    detail: "Team@dennizrecords.com",
+    detail: "Team@denizmarketing.com",
     highlight: false,
   },
   {
     icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+      <svg
+        className="w-8 h-8"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.5}
+          d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+        />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.5}
+          d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+        />
       </svg>
     ),
     title: "Address Location",
@@ -25,8 +50,18 @@ const contactInfo = [
   },
   {
     icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+      <svg
+        className="w-8 h-8"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.5}
+          d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
+        />
       </svg>
     ),
     title: "Phone Number",
@@ -43,15 +78,18 @@ function validateField(name, value) {
       return "";
     case "email":
       if (!value.trim()) return "Email is required";
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Please enter a valid email";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+        return "Please enter a valid email";
       return "";
     case "number":
       if (!value.trim()) return "Phone number is required";
-      if (!/^[\d\s\-+()]{7,15}$/.test(value)) return "Please enter a valid phone number";
+      if (!/^[\d\s\-+()]{7,15}$/.test(value))
+        return "Please enter a valid phone number";
       return "";
     case "message":
       if (!value.trim()) return "Message is required";
-      if (value.trim().length < 10) return "Message must be at least 10 characters";
+      if (value.trim().length < 10)
+        return "Message must be at least 10 characters";
       return "";
     case "consent":
       if (!value) return "You must agree to continue";
@@ -84,7 +122,10 @@ export default function ContactUs() {
     setForm((prev) => ({ ...prev, [name]: fieldValue }));
 
     if (touched[name]) {
-      setErrors((prev) => ({ ...prev, [name]: validateField(name, fieldValue) }));
+      setErrors((prev) => ({
+        ...prev,
+        [name]: validateField(name, fieldValue),
+      }));
     }
   };
 
@@ -103,7 +144,13 @@ export default function ContactUs() {
       newErrors[key] = validateField(key, form[key]);
     });
     setErrors(newErrors);
-    setTouched({ name: true, email: true, number: true, message: true, consent: true });
+    setTouched({
+      name: true,
+      email: true,
+      number: true,
+      message: true,
+      consent: true,
+    });
 
     const hasErrors = Object.values(newErrors).some((err) => err);
     if (!hasErrors) {
@@ -189,8 +236,11 @@ export default function ContactUs() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="text-gray-400 text-sm leading-relaxed mb-10"
               >
-                Delecti nibh magna habitant imperdiet risust recisandae. Dapibus
-                nulla scelerisque mollis irure cupiditate viva!
+                We’re here to help you take your music to the next level.
+                Whether you have questions about our services, want to discuss a
+                campaign, or are ready to start your growth journey, don’t
+                hesitate to reach out. We look forward to connecting with you
+                and helping your music reach its full potential.
               </motion.p>
 
               {/* Google Map */}
@@ -208,7 +258,7 @@ export default function ContactUs() {
                   allowFullScreen=""
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Denniz Records Location"
+                  title="Deniz Marketing Location"
                 />
               </motion.div>
             </div>
@@ -239,7 +289,9 @@ export default function ContactUs() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className={`w-full bg-white text-black rounded-lg px-4 py-3 text-sm outline-none transition-all ${
-                      touched.name && errors.name ? "ring-2 ring-red-500" : "focus:ring-2 focus:ring-primary"
+                      touched.name && errors.name
+                        ? "ring-2 ring-red-500"
+                        : "focus:ring-2 focus:ring-primary"
                     }`}
                     placeholder="Your name"
                   />
@@ -271,7 +323,9 @@ export default function ContactUs() {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className={`w-full bg-white text-black rounded-lg px-4 py-3 text-sm outline-none transition-all ${
-                        touched.email && errors.email ? "ring-2 ring-red-500" : "focus:ring-2 focus:ring-primary"
+                        touched.email && errors.email
+                          ? "ring-2 ring-red-500"
+                          : "focus:ring-2 focus:ring-primary"
                       }`}
                       placeholder="Email"
                     />
@@ -296,7 +350,9 @@ export default function ContactUs() {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className={`w-full bg-white text-black rounded-lg px-4 py-3 text-sm outline-none transition-all ${
-                        touched.number && errors.number ? "ring-2 ring-red-500" : "focus:ring-2 focus:ring-primary"
+                        touched.number && errors.number
+                          ? "ring-2 ring-red-500"
+                          : "focus:ring-2 focus:ring-primary"
                       }`}
                       placeholder="Phone number"
                     />
@@ -327,7 +383,9 @@ export default function ContactUs() {
                     onBlur={handleBlur}
                     rows={5}
                     className={`w-full bg-white text-black rounded-lg px-4 py-3 text-sm outline-none resize-none transition-all ${
-                      touched.message && errors.message ? "ring-2 ring-red-500" : "focus:ring-2 focus:ring-primary"
+                      touched.message && errors.message
+                        ? "ring-2 ring-red-500"
+                        : "focus:ring-2 focus:ring-primary"
                     }`}
                     placeholder="Your message"
                   />
@@ -356,10 +414,11 @@ export default function ContactUs() {
                       onBlur={handleBlur}
                       className="mt-0.5"
                     />
-                    By checking this box, I consent to receive CONVERSATIONAL SMS
-                    from Denniz Records. Reply STOP to opt-out; Reply HELP for
-                    support; Message & data rates may apply. Messaging frequency
-                    may vary. Visit our Privacy Policy and Terms of Service.
+                    By checking this box, I consent to receive CONVERSATIONAL
+                    SMS from Deniz Marketing. Reply STOP to opt-out; Reply HELP
+                    for support; Message & data rates may apply. Messaging
+                    frequency may vary. Visit our Privacy Policy and Terms of
+                    Service.
                   </label>
                   {touched.consent && errors.consent && (
                     <motion.p
