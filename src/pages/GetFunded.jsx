@@ -1,23 +1,121 @@
-import { useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 
 const brandDeals = [
   {
     image:
-      "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=600&q=80",
+      "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=1200&q=80",
     alt: "Aura Bora",
+    name: "Aura Bora",
   },
   {
     image:
-      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=600&q=80",
+      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=1200&q=80",
     alt: "Hypebeast",
+    name: "Hypebeast",
   },
   {
     image:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80",
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200&q=80",
     alt: "Vans",
+    name: "Vans",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=1200&q=80",
+    alt: "Nike",
+    name: "Nike",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=1200&q=80",
+    alt: "Ray-Ban",
+    name: "Ray-Ban",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200&q=80",
+    alt: "Adidas",
+    name: "Adidas",
   },
 ];
+
+function BrandDealsCarousel({ inView }) {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const total = brandDeals.length;
+
+  const next = () => setIndex((i) => (i + 1) % total);
+  const prev = () => setIndex((i) => (i - 1 + total) % total);
+
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => setIndex((i) => (i + 1) % total), 4000);
+    return () => clearInterval(id);
+  }, [paused, total]);
+
+  const visible = [
+    brandDeals[index % total],
+    brandDeals[(index + 1) % total],
+    brandDeals[(index + 2) % total],
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: 0.2 }}
+      className="relative px-12 md:px-16"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Visible 3-card window */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <AnimatePresence mode="popLayout" initial={false}>
+          {visible.map((deal, i) => (
+            <motion.div
+              key={`${index}-${i}`}
+              initial={{ opacity: 0, x: 60 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -60 }}
+              transition={{ duration: 0.45, delay: i * 0.06 }}
+              whileHover={{ scale: 1.04 }}
+              className="rounded-2xl overflow-hidden h-[300px]"
+            >
+              <img
+                src={deal.image}
+                alt={deal.alt}
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {/* Prev arrow (left of carousel) */}
+      <button
+        onClick={prev}
+        aria-label="Previous"
+        className="absolute left-0 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 hover:bg-primary text-white hover:text-black backdrop-blur-sm flex items-center justify-center transition cursor-pointer border border-white/20"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      {/* Next arrow (right of carousel) */}
+      <button
+        onClick={next}
+        aria-label="Next"
+        className="absolute right-0 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 hover:bg-primary text-white hover:text-black backdrop-blur-sm flex items-center justify-center transition cursor-pointer border border-white/20"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </motion.div>
+  );
+}
 
 export default function GetFunded() {
   const [form, setForm] = useState({
@@ -205,24 +303,7 @@ export default function GetFunded() {
           Brands Deals
         </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {brandDeals.map((deal, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={brandsInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.5, delay: 0.15 + index * 0.15 }}
-              whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
-              className="rounded-2xl overflow-hidden h-[300px]"
-            >
-              <img
-                src={deal.image}
-                alt={deal.alt}
-                className="w-full h-full object-cover transition duration-500"
-              />
-            </motion.div>
-          ))}
-        </div>
+        <BrandDealsCarousel inView={brandsInView} />
       </div>
     </section>
   );

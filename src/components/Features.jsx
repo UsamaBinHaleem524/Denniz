@@ -22,9 +22,9 @@ const features = [
     image: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&q=80",
   },
   {
-    title: "4-6 Week Campaigns",
+    title: "Promotion Campaigns",
     description:
-      "Work with our team on a classic 4-week promo campaign or add 2 extra weeks of marketing plus paid social advertising.",
+      "Targeted marketing designed to boost your reach, engagement, and overall growth.",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
     button: true,
   },
@@ -35,9 +35,9 @@ const features = [
     image: "https://images.unsplash.com/photo-1611339555312-e607c8352fd7?w=800&q=80",
   },
   {
-    title: "Priority Distro And Support",
+    title: "Priority Support Access",
     description:
-      "We'll send your release to stores super-fast. You can also skip the support queue and speak directly to the team.",
+      "Skip the queue and get direct access to our team for faster communication and support.",
     image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80",
   },
   {
