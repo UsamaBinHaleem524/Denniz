@@ -134,7 +134,7 @@ export default function AboutUs() {
               className="rounded-2xl overflow-hidden"
             >
               <iframe
-                src="https://www.youtube.com/embed/kJQP7kiw5Fk"
+                src="https://www.youtube.com/embed/-gn1FrPXEgM?si=eBjkFkwuRsik3WZz"
                 title="YouTube video"
                 className="w-full h-[350px]"
                 frameBorder="0"

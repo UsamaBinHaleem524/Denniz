@@ -6,11 +6,11 @@ export default function OfficialVideos() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const videos = [
-    { id: "dQw4w9WgXcQ" },
-    { id: "dil3XmzfJCg" },
-    { id: "ScMzIvxBSi4" },
-    { id: "aqz-KE-bpKQ" },
-    { id: "9bZkp7q19f0" },
+    { id: "owN1vzuFsMU" },
+    { id: "g0KJowgoeT4" },
+    { id: "xxWKNpJ1Pa0" },
+    { id: "UaU3WUAzjtE" },
+    { id: "AvI3eIDJ5C0" },
   ];
 
   return (
