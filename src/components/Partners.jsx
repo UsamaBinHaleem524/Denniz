@@ -1,11 +1,18 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import logo1 from "../assets/logo1.png";
-import logo2 from "../assets/logo2.png";
-import logo3 from "../assets/logo3.png";
-import logo4 from "../assets/logo4.png";
+import atlanticLogo from "../assets/svgs/atlantic-records.svg";
+import sonyLogo from "../assets/svgs/brand-sony-svgrepo-com.svg";
+import capitolLogo from "../assets/svgs/capitol-records-1.svg";
+import universalLogo from "../assets/svgs/universal-3.svg";
+import warnerLogo from "../assets/svgs/warner-music-group.svg";
 
-const logos = [logo1, logo2, logo3, logo4];
+const logos = [
+  { src: atlanticLogo, alt: "Atlantic Records" },
+  { src: sonyLogo, alt: "Sony Music" },
+  { src: capitolLogo, alt: "Capitol Records" },
+  { src: universalLogo, alt: "Universal Music" },
+  { src: warnerLogo, alt: "Warner Music Group" },
+];
 
 export default function Partners() {
   const ref = useRef(null);
@@ -33,13 +40,16 @@ export default function Partners() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="relative w-full overflow-hidden mask-[linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]"
         >
-          <div className="flex items-center gap-16 md:gap-24 w-max animate-marquee">
+          <div className="flex items-center gap-10 md:gap-14 w-max animate-marquee">
             {doubled.map((logo, index) => (
-              <div key={index} className="shrink-0 opacity-50 hover:opacity-80 transition duration-300">
+              <div
+                key={index}
+                className="shrink-0 bg-white rounded-xl px-6 py-4 md:px-8 md:py-6 flex items-center justify-center opacity-90 hover:opacity-100 transition duration-300"
+              >
                 <img
-                  src={logo}
-                  alt="partner logo"
-                  className="h-12 md:h-40 object-contain brightness-0 invert"
+                  src={logo.src}
+                  alt={logo.alt}
+                  className="h-12 md:h-20 w-auto max-w-[140px] md:max-w-[200px] object-contain"
                 />
               </div>
             ))}

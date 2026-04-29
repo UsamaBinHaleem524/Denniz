@@ -86,10 +86,11 @@ export default function AboutUs() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-gray-400 text-sm leading-relaxed"
             >
-              Id ornare mattis amet consectetur ante integer corporis, impeit
-              placerat totam curabitur pretium adipisci molestie pellentesque
-              tetuer ante integer corporis, impeit placerat totam curabitur
-              pretu mole.
+              At <span className="text-primary font-semibold">Deniz Marketing</span>,
+              we don't just promote music, we position it for influence. With
+              a refined, strategy-led approach, we help artists and labels
+              transform sound into a powerful digital presence that resonates
+              worldwide.
             </motion.p>
             <motion.p
               initial={{ opacity: 0, y: 30 }}
@@ -97,11 +98,12 @@ export default function AboutUs() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-gray-400 text-sm leading-relaxed"
             >
-              Quisquam porta necessitatibus magno blandit arcu ad nesciunt
-              liberor magna animi dictumst ratione placerat, quasi provident eum
-              quasi, commodo irure. Earum litora id quis recendos conque
-              explicabo. Imperdiet ipsa erat. Eius elementum aperiam irure,
-              aliquo nascenas ac alias nesciunt illumquat habitant.
+              From YouTube, Instagram, and Spotify to platforms like TikTok,
+              Apple Music, and SoundCloud, our 100% trusted services are
+              designed to elevate streams, expand reach, and build lasting
+              recognition. Paired with premium website development and
+              high-performance social media marketing, we craft digital
+              ecosystems where your music doesn't just exist, it leads.
             </motion.p>
           </div>
 

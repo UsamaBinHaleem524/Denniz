@@ -47,16 +47,7 @@ export default function OfficialVideos() {
           Official Videos Of Our Artists
         </motion.p>
 
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="bg-primary text-black font-semibold px-8 py-4 rounded-md hover:opacity-90 transition mb-20"
-        >
-          All Music Videos
-        </motion.button>
+        <div className="mb-20" />
 
         {/* Top Row - 2 Videos */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
