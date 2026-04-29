@@ -316,8 +316,6 @@ function SectionHeader({ inView, eyebrow, title }) {
 }
 
 export default function Promotions() {
-  const introRef = useRef(null);
-  const introInView = useInView(introRef, { once: true, margin: "-80px" });
   const ytRef = useRef(null);
   const ytInView = useInView(ytRef, { once: true, margin: "-50px" });
   const socialRef = useRef(null);
@@ -421,70 +419,6 @@ export default function Promotions() {
             Pick the campaign that fits your stage. Every plan is data-driven,
             organic, and engineered to deliver real, measurable results.
           </motion.p>
-        </div>
-      </section>
-
-      {/* Introduction */}
-      <section
-        ref={introRef}
-        className="relative bg-black py-24 overflow-hidden"
-      >
-        <div className="absolute inset-0 pointer-events-none opacity-15">
-          <div className="absolute left-1/3 top-1/2 w-96 h-96 bg-primary blur-[140px]" />
-        </div>
-
-        <div className="relative max-w-5xl mx-auto px-6 text-center">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={introInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="text-primary text-xs font-bold uppercase tracking-[0.3em] mb-4"
-          >
-            Introduction
-          </motion.p>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            animate={introInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl md:text-5xl font-extrabold uppercase leading-tight mb-10"
-          >
-            Where Sound Becomes Influence
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={introInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-gray-300 text-base md:text-lg leading-relaxed mb-6"
-          >
-            At <span className="text-primary font-semibold">Deniz Marketing</span>,
-            we don't just promote music — we position it for influence. With a
-            refined, strategy-led approach, we help artists and labels transform
-            sound into a powerful digital presence that resonates worldwide.
-          </motion.p>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={introInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-gray-300 text-base md:text-lg leading-relaxed"
-          >
-            From YouTube, Instagram, and Spotify to platforms like TikTok, Apple
-            Music, and SoundCloud, our 100% trusted services are designed to
-            elevate streams, expand reach, and build lasting recognition. Paired
-            with premium website development and high-performance social media
-            marketing, we craft digital ecosystems where your music doesn't just
-            exist — it leads.
-          </motion.p>
-
-          {/* Accent divider */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={introInView ? { scaleX: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="h-0.5 w-24 bg-primary mx-auto mt-12 origin-center"
-          />
         </div>
       </section>
 

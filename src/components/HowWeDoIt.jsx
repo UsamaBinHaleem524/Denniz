@@ -54,9 +54,9 @@ export default function HowWeDoIt() {
             className="relative lg:sticky lg:top-24"
           >
             <img
-              src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80"
-              alt="How we do it"
-              className="w-full h-[650px] object-cover rounded-lg opacity-80 grayscale"
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80"
+              alt="Team planning a campaign"
+              className="w-full h-[650px] object-cover rounded-lg grayscale contrast-110"
             />
             <div className="absolute inset-0 bg-black/40 rounded-lg" />
           </motion.div>

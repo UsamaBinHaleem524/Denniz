@@ -6,19 +6,19 @@ const genres = [
     number: "01",
     title: "Music PR & Press",
     description:
-      "Phasellus nulla dictumst quae optio vitae illum varius lacinia, magnam pharetra.",
+      "We connect artists with top-tier media, bloggers, and playlist curators to secure coverage that amplifies reach and credibility.",
   },
   {
     number: "02",
     title: "Music Charting",
     description:
-      "Phasellus nulla dictumst quae optio vitae illum varius lacinia, magnam pharetra.",
+      "Our strategic campaigns help boost streams, chart performance, and playlist placements, ensuring your music reaches the right audience.",
   },
   {
     number: "03",
     title: "Artist Branding",
     description:
-      "Phasellus nulla dictumst quae optio vitae illum varius lacinia, magnam pharetra.",
+      "We craft compelling artist identities with cohesive visuals, messaging, and digital presence to strengthen your brand and engage fans.",
   },
 ];
 

@@ -31,7 +31,7 @@ const services = [
     description: "Eye-catching cover art, social banners, and promotional graphics designed by our in-house team to ensure your brand looks professional and cohesive across every platform.",
   },
   {
-    title: "SEO",
+    title: "Search Engine Opt (SEO)",
     description: "Data-driven SEO solutions crafted to maximize online reach, rankings, and long-term digital impact.",
   },
   {

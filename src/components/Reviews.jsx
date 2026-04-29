@@ -10,37 +10,37 @@ import img6 from "../assets/image6.jpg";
 const reviews = [
   {
     text: "Norman and his team deliver precise, personalized campaigns with completely organic results, providing unmatched support at every step. Any artist serious about growth will see real value working with them.",
-    name: "SIAHLANSKY",
+    name: "MIA LAILANI",
     avatar: img1,
     color: "dark",
   },
   {
     text: "I loved working with Norman! They helped me grow my audience and bring my music and storytelling to life while staying true to my mission.",
-    name: "SKIMASKRECO",
+    name: "MICHELLE LONGFORD",
     avatar: img2,
     color: "green",
   },
   {
     text: "Working with Deniz's team has been amazing. They really took the time to understand my vision and helped me grow my audience while keeping my creativity front and center. The whole process was smooth, professional, and motivating — I feel more confident in my music and content than ever.",
-    name: "NAFL_AKA_BRUCE_WAYNE",
+    name: "JUSTIN",
     avatar: img3,
     color: "dark",
   },
   {
     text: "I've tried multiple platforms before, but Norman's approach felt real and effective. I am grateful for the support and the amazing results!",
-    name: "CBCKEEM",
+    name: "MARK WINTERS MUSIC",
     avatar: img4,
     color: "green",
   },
   {
     text: "I've tried multiple platforms before, but Norman's approach felt real and effective. I am grateful for the support and the amazing results!",
-    name: "ITZDOMAE",
+    name: "PUPA NAS T",
     avatar: img5,
     color: "dark",
   },
   {
     text: "Every project with Norman is executed with precision and thoughtful strategy. The campaigns are fully organic, delivering consistent growth and meaningful results for artists.",
-    name: "IM_DYELLE101",
+    name: "CAN VALENTINO",
     avatar: img6,
     color: "green",
   },

@@ -9,19 +9,23 @@ import video6 from "../assets/videos/video6.mp4";
 
 const videos = [video1, video2, video3, video4, video5, video6];
 
-function VideoCard({ src, index, inView }) {
-  const videoRef = useRef(null);
-  const [playing, setPlaying] = useState(false);
+function VideoCard({ src, index, inView, registerRef, onPlayRequest, isPlaying, onStateChange }) {
+  const localRef = useRef(null);
+
+  const setRef = (el) => {
+    localRef.current = el;
+    registerRef(index, el);
+  };
 
   const togglePlay = () => {
-    const v = videoRef.current;
+    const v = localRef.current;
     if (!v) return;
     if (v.paused) {
-      v.play();
-      setPlaying(true);
+      onPlayRequest(index);
+      v.muted = false;
+      v.play().catch(() => {});
     } else {
       v.pause();
-      setPlaying(false);
     }
   };
 
@@ -31,22 +35,28 @@ function VideoCard({ src, index, inView }) {
       animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
       transition={{ duration: 0.55, delay: index * 0.1 }}
       whileHover={{ y: -6, transition: { duration: 0.25 } }}
-      className="relative group rounded-2xl overflow-hidden bg-[#141414] border border-white/10 shadow-lg"
+      className="relative group rounded-2xl overflow-hidden bg-black border border-white/10 shadow-lg w-full max-w-[300px] mx-auto"
     >
       <video
-        ref={videoRef}
-        src={src}
+        ref={setRef}
+        src={`${src}#t=0.1`}
         preload="metadata"
         playsInline
-        controls={playing}
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-        onEnded={() => setPlaying(false)}
-        className="w-full h-[420px] object-cover bg-black"
+        muted
+        controls={isPlaying}
+        onLoadedMetadata={(e) => {
+          if (e.currentTarget.currentTime === 0) {
+            e.currentTarget.currentTime = 0.1;
+          }
+        }}
+        onPlay={() => onStateChange(index, true)}
+        onPause={() => onStateChange(index, false)}
+        onEnded={() => onStateChange(index, false)}
+        className="w-full aspect-[9/16] object-cover bg-black"
       />
 
       {/* Play Overlay (only when paused) */}
-      {!playing && (
+      {!isPlaying && (
         <button
           onClick={togglePlay}
           aria-label="Play testimonial"
@@ -74,6 +84,30 @@ function VideoCard({ src, index, inView }) {
 export default function TestimonialVideos() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const videoRefs = useRef([]);
+  const [playingIndex, setPlayingIndex] = useState(null);
+
+  const registerRef = (i, el) => {
+    videoRefs.current[i] = el;
+  };
+
+  const handlePlayRequest = (i) => {
+    // Pause every other video so only one plays at a time
+    videoRefs.current.forEach((v, idx) => {
+      if (v && idx !== i && !v.paused) {
+        v.pause();
+      }
+    });
+    setPlayingIndex(i);
+  };
+
+  const handleStateChange = (i, playing) => {
+    if (playing) {
+      setPlayingIndex(i);
+    } else if (playingIndex === i) {
+      setPlayingIndex(null);
+    }
+  };
 
   return (
     <section
@@ -107,7 +141,16 @@ export default function TestimonialVideos() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {videos.map((src, i) => (
-            <VideoCard key={i} src={src} index={i} inView={isInView} />
+            <VideoCard
+              key={i}
+              src={src}
+              index={i}
+              inView={isInView}
+              registerRef={registerRef}
+              onPlayRequest={handlePlayRequest}
+              onStateChange={handleStateChange}
+              isPlaying={playingIndex === i}
+            />
           ))}
         </div>
       </div>

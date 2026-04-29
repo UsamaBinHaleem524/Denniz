@@ -38,7 +38,7 @@ const features = [
     title: "Priority Support Access",
     description:
       "Skip the queue and get direct access to our team for faster communication and support.",
-    image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&q=80",
   },
   {
     title: "Mix & Mastering",
