@@ -1,5 +1,10 @@
 import { useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import emailjs from "@emailjs/browser";
+
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
 const contactInfo = [
   {
@@ -19,7 +24,7 @@ const contactInfo = [
       </svg>
     ),
     title: "Email Address",
-    detail: "Team@denizmarketing.com",
+    detail: "info@denizmarketing.com",
     highlight: false,
   },
   {
@@ -45,7 +50,7 @@ const contactInfo = [
       </svg>
     ),
     title: "Address Location",
-    detail: "53 E Carmel Valley Rd Carmel Valley, California(CA), 93924",
+    detail: "Richmond Hill, Queens, New York",
     highlight: true,
   },
   {
@@ -60,12 +65,12 @@ const contactInfo = [
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth={1.5}
-          d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
+          d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
         />
       </svg>
     ),
-    title: "Phone Number",
-    detail: "(213) 799-7188\n(213) 799-7146",
+    title: "FaceTime",
+    detail: "info@denizmarketing.com",
     highlight: false,
   },
 ];
@@ -110,6 +115,8 @@ export default function ContactUs() {
 
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState(null); // { type: "success" | "error", message: string }
 
   const cardsRef = useRef(null);
   const cardsInView = useInView(cardsRef, { once: true, margin: "-50px" });
@@ -136,7 +143,7 @@ export default function ContactUs() {
     setErrors((prev) => ({ ...prev, [name]: validateField(name, fieldValue) }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newErrors = {};
@@ -153,8 +160,47 @@ export default function ContactUs() {
     });
 
     const hasErrors = Object.values(newErrors).some((err) => err);
-    if (!hasErrors) {
-      alert("Form submitted successfully!");
+    if (hasErrors) return;
+
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      setStatus({
+        type: "error",
+        message: "Email service is not configured. Please try again later.",
+      });
+      return;
+    }
+
+    setSubmitting(true);
+    setStatus(null);
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: form.name,
+          from_email: form.email,
+          phone: form.number,
+          message: form.message,
+        },
+        { publicKey: EMAILJS_PUBLIC_KEY }
+      );
+
+      setStatus({
+        type: "success",
+        message: "Message sent! We'll be in touch soon.",
+      });
+      setForm({ name: "", email: "", number: "", message: "", consent: false });
+      setTouched({});
+      setErrors({});
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      setStatus({
+        type: "error",
+        message: "Could not send message. Please try again.",
+      });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -176,7 +222,7 @@ export default function ContactUs() {
           transition={{ duration: 0.8 }}
           className="relative z-10 text-5xl md:text-6xl font-extrabold uppercase tracking-wide"
         >
-          Contact
+          Contact Us
         </motion.h1>
       </section>
 
@@ -251,7 +297,7 @@ export default function ContactUs() {
                 className="rounded-2xl overflow-hidden h-[280px]"
               >
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3203.6!2d-121.733!3d36.414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808de1512de7281d%3A0x3e0b5e1e0b0b0b0b!2s53%20E%20Carmel%20Valley%20Rd%2C%20Carmel%20Valley%2C%20CA%2093924!5e0!3m2!1sen!2sus!4v1700000000000"
+                  src="https://maps.google.com/maps?q=Richmond+Hill+Queens+New+York&t=&z=14&ie=UTF8&iwloc=&output=embed"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -435,13 +481,33 @@ export default function ContactUs() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={formInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.5 }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={!submitting ? { scale: 1.05 } : {}}
+                  whileTap={!submitting ? { scale: 0.95 } : {}}
                   type="submit"
-                  className="bg-primary text-black text-sm font-bold px-8 py-3 rounded-md hover:opacity-90 transition uppercase tracking-wide"
+                  disabled={submitting}
+                  className="bg-primary text-black text-sm font-bold px-8 py-3 rounded-md hover:opacity-90 transition uppercase tracking-wide cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Submit Message
+                  {submitting ? "Sending…" : "Submit Message"}
                 </motion.button>
+
+                {/* Status Banner */}
+                <AnimatePresence>
+                  {status && (
+                    <motion.div
+                      key={status.type}
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className={`mt-4 rounded-lg px-4 py-3 text-sm font-semibold ${
+                        status.type === "success"
+                          ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
+                          : "bg-red-500/15 text-red-300 border border-red-500/30"
+                      }`}
+                    >
+                      {status.message}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </form>
             </motion.div>
           </div>

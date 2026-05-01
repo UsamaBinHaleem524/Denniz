@@ -1,5 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
+import emailjs from "@emailjs/browser";
+
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID_FUNDED = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_FUNDED;
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
 const brandDeals = [
   {
@@ -118,16 +123,22 @@ function BrandDealsCarousel({ inView }) {
 }
 
 export default function GetFunded() {
+  const [step, setStep] = useState(1);
   const [form, setForm] = useState({
     artistName: "",
     instagram: "",
     email: "",
     trackLink: "",
     phone: "",
-    experience: "Less then 1 year",
+    experience: "1 year",
     budget: "No budget",
     option: "Get Funded",
+    creditScore: "Less than 600",
+    ownBudget: "No budget",
   });
+
+  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState(null);
 
   const formRef = useRef(null);
   const formInView = useInView(formRef, { once: true, margin: "-50px" });
@@ -139,8 +150,90 @@ export default function GetFunded() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (step === 1) {
+      // Validate step 1 fields
+      if (!form.artistName || !form.email || !form.phone) {
+        setStatus({
+          type: "error",
+          message: "Please fill in all required fields.",
+        });
+        return;
+      }
+      setStatus(null);
+      setStep(2);
+      return;
+    }
+
+    // Step 2: Submit form via EmailJS
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID_FUNDED || !EMAILJS_PUBLIC_KEY) {
+      setStatus({
+        type: "error",
+        message: "Email service is not configured. Please try again later.",
+      });
+      return;
+    }
+
+    setSubmitting(true);
+    setStatus(null);
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID_FUNDED,
+        {
+          artist_name: form.artistName,
+          instagram: form.instagram,
+          email: form.email,
+          track_link: form.trackLink,
+          phone: form.phone,
+          experience: form.experience,
+          marketing_budget: form.budget,
+          selected_option: form.option,
+          credit_score: form.creditScore,
+          own_budget: form.ownBudget,
+        },
+        { publicKey: EMAILJS_PUBLIC_KEY }
+      );
+
+      setStatus({
+        type: "success",
+        message: "Application submitted successfully! We'll contact you soon.",
+      });
+      
+      // Reset form after successful submission
+      setTimeout(() => {
+        setForm({
+          artistName: "",
+          instagram: "",
+          email: "",
+          trackLink: "",
+          phone: "",
+          experience: "1 year",
+          budget: "No budget",
+          option: "Get Funded",
+          creditScore: "Less than 600",
+          ownBudget: "No budget",
+        });
+        setStep(1);
+        setStatus(null);
+      }, 5000);
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      setStatus({
+        type: "error",
+        message: "Could not submit application. Please try again.",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handlePrevious = () => {
+    setStep(1);
+    setStatus(null);
   };
 
   const formFields = [
@@ -172,123 +265,273 @@ export default function GetFunded() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex items-center gap-0 mb-14 max-w-xl mx-auto origin-left"
         >
-          <div className="w-8 h-8 rounded-full bg-primary text-black text-sm font-bold flex items-center justify-center shrink-0">
+          <div className={`w-8 h-8 rounded-full text-sm font-bold flex items-center justify-center shrink-0 ${
+            step >= 1 ? "bg-primary text-black" : "bg-gray-600 text-gray-400"
+          }`}>
             1
           </div>
           <div className="flex-1 h-0.5 bg-gray-600">
-            <div className="h-full bg-primary w-full" />
+            <div className={`h-full bg-primary transition-all duration-500 ${step >= 2 ? "w-full" : "w-0"}`} />
           </div>
-          <div className="w-8 h-8 rounded-full bg-gray-600 text-gray-400 text-sm font-bold flex items-center justify-center shrink-0">
+          <div className={`w-8 h-8 rounded-full text-sm font-bold flex items-center justify-center shrink-0 ${
+            step >= 2 ? "bg-primary text-black" : "bg-gray-600 text-gray-400"
+          }`}>
             2
           </div>
         </motion.div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6 max-w-xl mx-auto">
-          {formFields.map((field, index) => (
-            <motion.div
-              key={field.name}
-              initial={{ opacity: 0, x: -30 }}
-              animate={formInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.4, delay: 0.3 + index * 0.08 }}
-            >
-              <label className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">
-                {field.label}
-              </label>
-              <input
-                type={field.type || "text"}
-                name={field.name}
-                value={form[field.name]}
-                onChange={handleChange}
-                placeholder={field.placeholder}
-                className="w-full bg-white text-black rounded-lg px-4 py-3 text-sm outline-none"
-              />
-            </motion.div>
-          ))}
+          {step === 1 && (
+            <>
+              {formFields.map((field, index) => (
+                <motion.div
+                  key={field.name}
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={formInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.3 + index * 0.08 }}
+                >
+                  <label className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">
+                    {field.label}
+                  </label>
+                  <input
+                    type={field.type || "text"}
+                    name={field.name}
+                    value={form[field.name]}
+                    onChange={handleChange}
+                    placeholder={field.placeholder}
+                    className="w-full bg-white text-black rounded-lg px-4 py-3 text-sm outline-none"
+                  />
+                </motion.div>
+              ))}
 
-          {/* Select: How Long */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={formInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.4, delay: 0.7 }}
-          >
-            <label className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">
-              How Long You Are Making Music
-            </label>
-            <select
-              name="experience"
-              value={form.experience}
-              onChange={handleChange}
-              className="w-full bg-white text-black rounded-lg px-4 py-3 text-sm outline-none appearance-none cursor-pointer"
-            >
-              <option>Less then 1 year</option>
-              <option>1-3 years</option>
-              <option>3-5 years</option>
-              <option>5+ years</option>
-            </select>
-          </motion.div>
+              {/* Select: How Long */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={formInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.4, delay: 0.7 }}
+                className="relative"
+              >
+                <label className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">
+                  How Long You Are Making Music
+                </label>
+                <select
+                  name="experience"
+                  value={form.experience}
+                  onChange={handleChange}
+                  className="w-full bg-white text-black rounded-lg px-4 py-3 pr-10 text-sm outline-none appearance-none cursor-pointer"
+                >
+                  <option>1 year</option>
+                  <option>2 years</option>
+                  <option>3 years</option>
+                  <option>4 years</option>
+                  <option>more than 4 years</option>
+                </select>
+                <svg
+                  className="absolute right-3 top-[42px] w-5 h-5 pointer-events-none text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </motion.div>
 
-          {/* Select: Budget */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={formInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.4, delay: 0.78 }}
-          >
-            <label className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">
-              Marketing Budget You Are Spending
-            </label>
-            <select
-              name="budget"
-              value={form.budget}
-              onChange={handleChange}
-              className="w-full bg-white text-black rounded-lg px-4 py-3 text-sm outline-none appearance-none cursor-pointer"
-            >
-              <option>No budget</option>
-              <option>$100 - $500</option>
-              <option>$500 - $1,000</option>
-              <option>$1,000 - $5,000</option>
-              <option>$5,000+</option>
-            </select>
-          </motion.div>
+              {/* Select: Budget */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={formInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.4, delay: 0.78 }}
+                className="relative"
+              >
+                <label className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">
+                  Marketing Budget You Are Spending
+                </label>
+                <select
+                  name="budget"
+                  value={form.budget}
+                  onChange={handleChange}
+                  className="w-full bg-white text-black rounded-lg px-4 py-3 pr-10 text-sm outline-none appearance-none cursor-pointer"
+                >
+                  <option>No budget</option>
+                  <option>$500-$1k</option>
+                  <option>$1k-$2k</option>
+                  <option>$2k-$3k</option>
+                  <option>$3k-$4k</option>
+                  <option>$4k-$5k</option>
+                  <option>$5k-$10k</option>
+                </select>
+                <svg
+                  className="absolute right-3 top-[42px] w-5 h-5 pointer-events-none text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </motion.div>
 
-          {/* Select: Options */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={formInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.4, delay: 0.86 }}
-          >
-            <label className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">
-              Select Options
-            </label>
-            <select
-              name="option"
-              value={form.option}
-              onChange={handleChange}
-              className="w-full bg-white text-black rounded-lg px-4 py-3 text-sm outline-none appearance-none cursor-pointer"
-            >
-              <option>Get Funded</option>
-              <option>Promotion</option>
-              <option>Distribution</option>
-              <option>Brand Deal</option>
-            </select>
-          </motion.div>
+              {/* Select: Options */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={formInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.4, delay: 0.86 }}
+                className="relative"
+              >
+                <label className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">
+                  Select Options
+                </label>
+                <select
+                  name="option"
+                  value={form.option}
+                  onChange={handleChange}
+                  className="w-full bg-white text-black rounded-lg px-4 py-3 pr-10 text-sm outline-none appearance-none cursor-pointer"
+                >
+                  <option>Get Funded</option>
+                  <option>Start with your own budget</option>
+                </select>
+                <svg
+                  className="absolute right-3 top-[42px] w-5 h-5 pointer-events-none text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </motion.div>
 
-          {/* Submit */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={formInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.9 }}
-            className="text-center pt-4"
-          >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              type="submit"
-              className="bg-primary text-black text-lg font-bold px-12 py-4 rounded-md hover:opacity-90 transition"
-            >
-              Next
-            </motion.button>
-          </motion.div>
+              {/* Submit */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={formInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.9 }}
+                className="text-center pt-4"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  type="submit"
+                  className="bg-primary text-black text-lg font-bold px-12 py-4 rounded-md hover:opacity-90 transition"
+                >
+                  Next
+                </motion.button>
+              </motion.div>
+            </>
+          )}
+
+          {step === 2 && (
+            <>
+              {/* Credit Score */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+                className="relative"
+              >
+                <label className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">
+                  Credit Score ( only for funding )
+                </label>
+                <select
+                  name="creditScore"
+                  value={form.creditScore}
+                  onChange={handleChange}
+                  className="w-full bg-white text-black rounded-lg px-4 py-3 pr-10 text-sm outline-none appearance-none cursor-pointer"
+                >
+                  <option>Less than 600</option>
+                  <option>More than 600</option>
+                </select>
+                <svg
+                  className="absolute right-3 top-[42px] w-5 h-5 pointer-events-none text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </motion.div>
+
+              {/* Own Budget */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: 0.38 }}
+                className="relative"
+              >
+                <label className="text-primary text-xs font-bold uppercase tracking-wider mb-2 block">
+                  Budget ( To start with your own budget )
+                </label>
+                <select
+                  name="ownBudget"
+                  value={form.ownBudget}
+                  onChange={handleChange}
+                  className="w-full bg-white text-black rounded-lg px-4 py-3 pr-10 text-sm outline-none appearance-none cursor-pointer"
+                >
+                  <option>No budget</option>
+                  <option>$100</option>
+                  <option>$200</option>
+                  <option>$300</option>
+                  <option>$500</option>
+                  <option>$750</option>
+                  <option>$1000</option>
+                  <option>$1000+</option>
+                </select>
+                <svg
+                  className="absolute right-3 top-[42px] w-5 h-5 pointer-events-none text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </motion.div>
+
+              {/* Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.46 }}
+                className="flex gap-4 pt-4"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  type="button"
+                  onClick={handlePrevious}
+                  className="flex-1 bg-gray-600 text-white text-lg font-bold px-8 py-4 rounded-md hover:bg-gray-700 transition"
+                >
+                  Previous
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  type="submit"
+                  disabled={submitting}
+                  className="flex-1 bg-primary text-black text-lg font-bold px-8 py-4 rounded-md hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {submitting ? "Submitting..." : "Join Now"}
+                </motion.button>
+              </motion.div>
+            </>
+          )}
+
+          {/* Status Banner */}
+          <AnimatePresence>
+            {status && (
+              <motion.div
+                key={status.type}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className={`mt-6 rounded-lg px-5 py-4 text-sm font-semibold text-center ${
+                  status.type === "success"
+                    ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
+                    : "bg-red-500/15 text-red-300 border border-red-500/30"
+                }`}
+              >
+                {status.message}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </form>
       </div>
 
