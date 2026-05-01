@@ -68,7 +68,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-primary font-semibold tracking-widest text-sm mb-6 uppercase"
+          className="text-primary font-semibold tracking-widest text-2xl md:text-3xl mb-6 uppercase"
         >
           Deniz Marketing
         </motion.p>
