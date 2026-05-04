@@ -33,7 +33,7 @@ const reviews = [
     color: "green",
   },
   {
-    text: "I've tried multiple platforms before, but Norman's approach felt real and effective. I am grateful for the support and the amazing results!",
+    text: "Working with Norman has been a game-changer. As an agency, they being creativity and precision to every track. Their vision an leadership at Deniz Marketing ensure every project reaches its full potential. Highly recommended for anyone looking to take their music to the next level.",
     name: "PUPA NAS T",
     avatar: img5,
     color: "dark",

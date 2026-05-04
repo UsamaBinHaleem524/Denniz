@@ -24,7 +24,7 @@ const contactInfo = [
       </svg>
     ),
     title: "Email Address",
-    detail: "info@denizmarketing.com",
+    detail: "team@denizmarketing.com",
     highlight: false,
   },
   {
@@ -70,7 +70,7 @@ const contactInfo = [
       </svg>
     ),
     title: "FaceTime",
-    detail: "info@denizmarketing.com",
+    detail: "team@denizmarketing.com",
     highlight: false,
   },
 ];
