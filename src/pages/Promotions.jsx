@@ -14,6 +14,7 @@ const youtubePlans = [
     tier: "YouTube Growth Plan",
     name: "Basic",
     price: "$500",
+    originalPrice: "$1000",
     duration: "30–40 Day Campaign",
     songs: "3–5 Songs Included",
     badge: null,
@@ -35,6 +36,7 @@ const youtubePlans = [
     tier: "YouTube Growth Plan",
     name: "Standard",
     price: "$1200",
+    originalPrice: "$2000",
     duration: "3 Months Campaign",
     songs: "6–10 Songs Included",
     badge: "Most Popular",
@@ -57,6 +59,7 @@ const youtubePlans = [
     tier: "YouTube Growth Plan",
     name: "PRO",
     price: "$2500",
+    originalPrice: "$4000",
     duration: "6 Months Campaign",
     songs: "9–15 Songs Included",
     badge: "Premium",
@@ -239,10 +242,15 @@ function PlanCard({ plan, featured = false, index, onCheckout, loadingId }) {
           {plan.name}
         </h3>
 
-        <div className="flex items-baseline gap-2 mb-2">
+        <div className="flex items-baseline gap-3 mb-2 flex-wrap">
           <span className="text-white text-5xl font-extrabold">
             {plan.price}
           </span>
+          {plan.originalPrice && (
+            <span className="text-gray-500 text-2xl font-bold line-through decoration-red-500/80 decoration-2">
+              {plan.originalPrice}
+            </span>
+          )}
           {plan.priceSuffix && (
             <span className="text-gray-400 text-sm">{plan.priceSuffix}</span>
           )}
